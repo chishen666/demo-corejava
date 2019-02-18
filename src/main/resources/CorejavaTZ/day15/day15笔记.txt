@@ -1,0 +1,139 @@
+Java反射技术
+
+学习目的:
+1.了解Java反射技术的原理
+2.熟悉反射的相关API,并且通过程序获取相关信息
+3.能够看懂利用反射技术编写的程序代码,包括框架等等...
+
+--------------------------------------------------------------------------
+
+Java反射技术的原理:
+Java是一种动态加载的编程语言,它可以获取一个正在运行时类的属性/方法的信息,
+或者调用对象的属性/方法,也就是说,Java可以获取运行时类的结构,并且操作这个
+类的对象,这种机制就叫做Java反射机制.
+
+
+Java反射技术提供的功能:
+1.获取类的完整结构(属性,方法,构造,父类,实现的接口,所在的包...)
+2.创建对象
+3.访问属性,调用方法
+4.创建/操作数组
+
+--------------------------------------------------------------------------
+
+Java反射API:
+
+一:java.lang.Class<T>
+
+//根据类的全限定名获取类的Class实例(反射第一步就是获取Class实例)
+static Class<?>			forName(String className)
+
+//获取类的名字
+String					getName()
+
+//获取类所在的包
+Package					getPackage()
+
+//获取类实现的所有接口
+Class<?>[] 				getInterfaces()
+
+//获取类的父类
+Class<?>				getSuperclass()
+
+//获取类的修饰符(返回类型是一个整数,表示修饰符底层对应的2的n次方数字)
+//如果想要获取修饰符的字符串形式,利用Modifier.toString(int)
+int 					getModifiers()  
+
+//根据属性名和参数来获取指定的并且是公开的属性
+Field					getField(String name)
+
+//根据属性名来获取指定的属性
+Field					getDeclaredField(String name) 
+
+//获取所有的公开属性
+Field[]					getFields()
+
+//获取所有的属性,包括私有化的
+Field[]					getDeclaredFields() 
+
+//根据参数来获取指定的并且是公开的构造方法
+Constructor				getConstructor(Class<?>... parameterTypes)//...表示可变长参数
+
+//根据参数来获取指定的构造方法
+Constructor				getDeclaredConstructor(Class<?>... parameterTypes) 
+
+//获取所有的公开构造方法
+Constructor[]			getConstructors()
+
+//获取所有的构造方法,包括私有化的
+Constructor[]			getDeclaredConstructors() 
+
+//根据方法名和参数来获取指定的并且是公开的方法
+Method					getMethod(String name,Class<?>... parameterTypes)
+
+//根据方法名和参数来获取指定的方法
+Method					getDeclaredMethod(String name,Class<?>... parameterTypes) 
+
+//获取所有的公开方法
+Method[]				getMethods()
+
+//获取所有的方法,包括私有化的
+Method[]				getDeclaredMethods() 
+
+
+二:java.lang.reflect
+
+java.lang.reflect.Field			表示属性
+
+java.lang.reflect.Constructor	表示构造方法
+
+注意:
+通过反射创建对象的方式
+1.通过空参构造创建对象
+  a.Class类中的newInstance()方法
+  b.Constructor类中的newInstance()方法,不传递任何参数
+  
+2.通过有参构造创建对象
+    Constructor类中的newInstance(参数列表)方法
+
+
+java.lang.reflect.Method		表示方法
+
+注意:
+invoke(对象,方法的参数)			反射调用方法
+
+
+java.lang.reflect.Modifier 		表示修饰符
+
+String	Modifier.toString(int mod)		把修饰符底层数字转换成字符串表示
+
+
+java.lang.reflect.Array			表示数组
+
+1.创建数组
+Object arr = Array.newInstance(数组组件类型,数组长度);
+Object arr  = Array.newInstance(数组组件类型,维度1,维度2,维度3,...);
+
+
+2.操作数组
+
+//通过下标获取数组元素
+get(数组对象,下标)
+
+//通过下标修改数组元素
+set(数组对象,下标,值)
+
+//获取数组长度
+getLength(数组对象)
+
+//获取数组组件类型(此方法属于Class类)
+getComponentType()
+
+
+注意:以上每一个类又有各自的方法.
+
+
+面试题:Array和Arrays的区别?
+
+Array和Arrays都是类,Array是Java反射技术中数组的工具类,提供反射操作数组的常用方法,
+Arrays也是数组工具类,它提供了操作数组的普通方式.

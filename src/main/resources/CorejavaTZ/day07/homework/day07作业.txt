@@ -1,0 +1,55 @@
+作业一:
+写一个交通工具类:Vehicle
+方法:  
+//跑的方法
+public void run() { }
+
+写一个子类: 自行车  Bike, 继承交通工具类,
+并重写 run 方法
+
+写一个子类: 飞机类, Plane,  继承交通工具类,
+并重写  run 方法
+
+写一个子类:  轿车, Car,  继承交通工具类,
+并重写 run 方法.
+
+最后,写一个交通工具管理类, VehicleFactory, 提供如下2个方法 :
+
+方法一,获取交通工具方法:根据参数,来决定返回的是哪种具体的交通工具.
+type 为1时,返回Bike对象
+type 为2时,返回Car对象
+type 为3时,返回Plane对象.
+请自行设计方法申明和实现. (方法名为: getVehicle)
+
+方法二,业务类中提供一个回家的方法, 传进一个 交通工具对象的参数,
+在方法体类,调用这个交通工具的 run 方法,完成回家的模拟.
+请自行设计方法申明和实现.(方法名为: goHome)
+
+
+作业二:
+
+写一个USB设备类:UsbDevice
+方法:  
+//连接的方法
+public void connection() { }
+
+写一个子类: Usb鼠标  UsbMouse, 继承USB设备类,
+并重写 connection 方法
+
+写一个子类: Usb键盘  UsbKeyBoard, 继承USB设备类,
+并重写 connection 方法
+
+写一个子类: Usb摄像头  UsbCamera, 继承USB设备类,
+并重写 connection 方法
+
+最后,写一个USB设备管理类, UsbDeviceFactory, 提供如下2个方法 :
+
+方法一,获取USB设备的方法:根据参数,来决定返回的是哪种具体的USB设备.
+type 为1时,返回Usb鼠标对象
+type 为2时,返回Usb键盘对象
+type 为3时,返回Usb摄像头对象.
+请自行设计方法申明和实现. (方法名为: getUsbDevice)
+
+方法二,提供一个驱动的方法, 传进一个USB设备对象的参数,
+在方法体类,调用这个USB设备的 connection 方法,完成驱动连接模拟.
+请自行设计方法申明和实现.(方法名为: run)

@@ -1,0 +1,249 @@
+Java时间处理
+
+一.日期类
+java.util.Date
+
+1.创建时间对象,获取当前系统时间
+Date now = new Date();
+
+2.创建指定的时间(已经过时,不推荐使用)
+Date time = new Date(年份-1900,月份-1,日期,时,分,秒);
+
+3.判断A日期是否在B日期之前
+  A.before(B);
+  
+  判断A日期是否在B日期之后
+  A.after(B);
+
+4.获取当前系统时间的毫秒数
+  long time = System.currentTimeMilles();
+  
+  获取指定时间的毫秒数
+  long time = date.getTime();
+
+5.把毫秒数转换成Date时间
+
+  Date d = new Date(time);
+  
+  d.setTime(time);
+  
+  注意:System.currentTimeMilles()一般可以用来检测程序性能.
+  
+  
+二.时间格式化类
+java.text.SimpleDateFormat
+
+1.创建简单时间格式化模板
+SimpleDateFormat sdf = new SimpleDateFormat("时间格式化模板");
+
+注意:时间格式化模板必须为指定字符构成的特殊字符串,如果传入非法的字符串,
+     则会抛出非法参数异常,java.lang.IllegalArgumentException
+
+例如:
+y	表示年
+M	表示月
+d	表示日
+H	表示24小时
+h	表示12小时
+m	表示分
+s	表示秒
+E	表示星期
+
+2.调用格式化方法
+String time = sdf.format(Date date);//把Date类型转换成String
+
+
+3.解析方法(把符合规则的时间字符串解析成Date对象)
+try{
+	Date d = sdf.parse(String time);
+}catch(ParseException e){
+	//...
+}
+注意:此方法强制要求程序员处理异常--对解析异常加以捕获
+     如果传入的字符串是不符合时间格式化模板,则抛出解析异常,java.text.ParseException
+     字符串必须>=时间模板,但是超过部分不起作用.
+
+
+三.日历类
+java.util.Calendar
+
+1.获取当前系统的日历
+Calendar cal = Calendar.getInstance();
+
+
+2.通过get(Calendar.常量);来获取日历信息
+
+注意:日历类中定义了大量的常量来提高代码的可读性
+
+例如:
+YEAR,MONTH,DAY_OF_MONTH,DAY_OF_WEEK,HOUR...
+
+
+3.通过set方法来设置日历信息
+
+  //修改某一个属性
+  set(Calendar.常量,值)			
+  
+  //修改多个属性
+  set(年,月,日)
+  set(年,月,日,时,分,秒)
+  
+ 
+4.//日历转换成日期
+  Date date = cal.getTime(); 
+  
+  //把指定日期设置到日历中
+  cal.setTime(d);
+  
+  		  getTime()          getTime()
+  long  <---------->  Date <----------> Calendar
+		  setTime(l)         setTime(d)
+		  
+		      parse(str)
+  String  <--------------->	Date 
+             format(date) 
+
+练习:
+运行程序,直接打印今天是星期几
+
+请您输入年,月,得到该年该月的第一天是星期几
+
+---------------------------------------------------------------------------
+
+流程控制
+
+1.条件判断
+
+a.if条件判断
+
+语法:
+
+//追加效果
+if(条件){
+	//代码;
+}
+
+//判断正反
+if(条件){
+	//代码1;
+}else{
+	//代码2;
+}
+
+//判断多种不同情况
+if(条件1){
+	//代码1;
+}else if(条件2){
+	//代码2;
+}else if(条件3){
+	//代码3;
+}else if(条件3){
+	//代码4;
+}else if(条件N){
+	//代码N;
+}else{
+	//代码;
+}
+
+注意:
+1.if else可以嵌套使用
+2.if else中的条件必须是boolean类型,当条件成立,则运行相应的代码,
+  条件最好是互斥,否则,当满足多个条件时,只有最上面的代码会运行.
+3.if else中如果代码只有一行,则对应的{}可以省略,不推荐
+
+练习:输入年份,获取该年是润年还是平年
+
+
+b.switch条件判断
+
+语法:
+switch(变量){
+	
+	case 值1:
+		//代码1;
+		[break;]
+	case 值2:
+		//代码2;
+		[break;]
+	case 值3:
+		//代码3;
+		[break;]
+	case 值n:
+		//代码n;
+		[break;]
+	[default:]
+		//代码;
+}
+
+注意:
+a.变量只能是以下类型之一:byte,short,int,char,枚举,String(JDK7.0加入)
+b.当变量值为case后面值时,则运行case块相应的代码,如果都不满足,则运行
+  default代码块,前提是default代码块存在,因为可以省略
+c.switch中如果运行某一个case时,没有遇到break,则程序会继续向下运行,直到
+  遇到break或者代码运行结束为止.  
+
+
+
+2.循环
+
+a.for
+
+语法:
+for(1初始化条件;2运行条件;3变量因子){
+	//4循环体
+}
+5其他代码
+
+执行顺序:
+12432432432432X5
+
+初始化条件是指for循环进入后变量的初始值,只有一次运行
+运行条件是boolean类型,当此条件满足时,for循环反复执行,否则退出,最少一次
+变量因子是指每次循环与之前变量的改变量,可能执行,可能执行
+
+
+注意:
+for循环的每一部分条件都可以省略,当三个部分都省略,则变成死循环
+for(;;){}  <====>  while(true){}
+
+
+for循环多层嵌套
+for(int i = 0;i < 10;i++){//行
+	for(int j = 0;j < 10;j++){//列
+		
+	}
+}
+
+
+b.while -- 后置循环
+
+语法:
+while(条件){
+	//循环体
+}
+
+
+c.do while -- 前置循环
+
+语法:
+do{
+	//循环体
+}while(条件);
+
+
+注意:
+前置循环,循环体在条件判断之前
+后置循环,循环体在条件判断之后
+
+差别在于,前置循环的循环体至少会被执行一次,而后置循环的循环体可能不被执行.
+---------------------------------------------------------------------------
+
+break和continue
+
+break表示打断循环或者switch
+
+continue表示打断当前某轮循环,继续执行下一次
+
+注意:如果循环或者switch是嵌套使用,break是在内层的话,则打断的是内层循环而非
+     整个程序
+

@@ -1,0 +1,63 @@
+Java字符串处理
+
+一.Java字符串的种类
+
+java.lang.String				Java字符串基础类,不变类
+java.lang.StringBuilder			Java字符串动态类,线程非安全,性能高
+java.lang.StringBuffer			Java字符串动态类,线程安全,性能稍低
+
+注意:
+1.StringBuilder和StringBuffer中的方法的功能基本是相同的.
+2.程序中安全性和性能往往成反比,在设计时需要考虑孰轻孰重.
+
+
+二.Java字符串的创建
+
+1.String的构建
+
+  a.申请堆空间
+  String s = new String("abc");
+  
+  b.申请串池
+  String s = "abc";
+
+
+两种创建方式的差别:
+申请堆空间创建方式表示在内存中创建不同的字符串对象,所以不同值的字符串对象是
+存在多个的.
+申请串池创建方式表示第一次创建字符串时把该字符串放入到串池中,当第二次创建字
+符串时,会优先去串池中搜索是否含有同值的字符串,如果存在,则直接把串池中同值字
+符串的内存地址赋值给新的对象.如果不存在,则直接创建新字符串对象并且放入到串
+池中.
+
+
+2.StringBuilder/StringBuffer
+  
+  StringBuilder builder = new StringBuilder();//构建一个空的默认16个字符的字符串容器
+  StringBuilder builder = new StringBuilder(10);//构建一个空的指定初始化容量的字符串容器
+  StringBuilder builder = new StringBuilder("abc");//根据指定字符串构建StringBuilder容器
+  
+
+
+三.Java字符串的拼接
+
+1.String的拼接,使用+来拼接
+
+底层原理:由于String是不变类,一旦创建,大小无法改变,所以对String的拼接是创建了一个全新的字符串
+         对象,并且做增删操作,即String的+号拼接方式会产生新的对象,所以这种拼接方式的性能比较
+         低,资源消耗多.
+	
+2.StringBuilder/StringBuffer的拼接,使用append()方法
+
+底层原理:由于它们是动态容器,所以append()方法的拼接就是对原对象的扩容,不会创建新的对象,即此种
+         拼接方式效率极高.
+
+注意:
+1.StringBuilder中没有重写equals()方法
+2.简单输出可以使用+拼接,其他一律采用StringBuilder/StringBuffer的append()方法
+
+
+
+四.Java字符串的常用方法
+   见StringMethodDemo,StringBuilderMethodDemo
+   

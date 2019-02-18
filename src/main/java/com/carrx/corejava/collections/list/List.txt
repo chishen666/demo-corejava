@@ -1,0 +1,23 @@
+   Java中常用的List子类主要有：ArrayList、LinkedList、Vector。
+
+一：ArrayList
+    ArrayList实现了List接口，实现了一系列的add()/get()/clear()/remove()等接口中的方法。
+            其底层其实是一个数组，通过对数组上一系列操作的封装来实现list的各种功能的。
+        
+    1：ArrayList 实际上是通过一个数组去保存数据的。当我们构造ArrayList时；若使用默认构造函数，则ArrayList的默认容量大小是10。
+    2：当ArrayList容量不足以容纳全部元素时，ArrayList扩容：新的容量=“(原始容量x3)/2 + 1”。创建新容量大小的数组并把原数组内容复制过去。
+    3：ArrayList的add()/get()/remove()等操作都是对底层的数组进行操作而已。
+    
+二：LinkedList
+    LinkedList通过另一种方式实现List接口，不仅如此，它还实现了 Queue(队列)、Deque接口(双端队列)，使得LinkedList可以作为 栈、队列、双端队列来使用。
+    LinkedList底层是一个 双向链表。其对于 List、Queue、Deque接口中的方法都是通过封装在链表上的操作来实现的。
+    
+三：Vector
+    Vector也是在底层通过一个数组来保存数据，通过底层数组的一系列操作来实现List接口的。   
+            同ArrayList一样，Vector底层数组容量不足时会扩容，然后把原有内容复制过去。
+            
+四：三者比较
+    1：访问：ArrayList和Vector都实现了RandomAccess接口，提供了随机访问功能，查询O（1）;LinkedList是链表，查询O（n）;
+    2：增删：ArrayList和Vector底层是数组，增删容易引起大量的内存操作，效率较慢；LinkedList是链表实现，增加和删除较快；
+    3：线程安全性：Vector是线程安全的，观察上面源码可以发现，大部分的方法都用了syncrhoized关键字修饰。所以，如果是单线程下使用，可以用Arrayist，如果是多线程操作的list，则可以用vector来保证线程安全。
+    4：ArrayList每次扩容增加50%，Vector扩容增加一倍。

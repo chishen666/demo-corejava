@@ -1,0 +1,39 @@
+1.
+找一篇英文文章,获取文中所有单词以及每个单词出现的次数
+
+The	40
+is	30
+...
+
+
+按照两种规则排序:
+a.按照单词的首字母升序排列
+b.按照单词出现的次数降序排列
+
+
+2.
+class Purchase{ //购买类
+	private String brand; //品牌
+	private String name; //产品名
+	private double cost; // 费用
+}
+
+有集合map存放了如下数据:
+List list = new ArrayList();
+Purchase p1 = new Purchase("宝洁","洗手粉",18.5);
+Purchase p2 = new Purchase("联合利华","肥皂",4.5);
+Purchase p3 = new Purchase("宝洁","牙膏",32.5);
+Purchase p4 = new Purchase("宝洁","毛巾",14.5);
+Purchase p5 = new Purchase("洁利","洗面奶",26.0);
+Purchase p6 = new Purchase("好迪","洗发水",27.5);
+Purchase p7 = new Purchase("多芬","沐浴露",38.5);
+Purchase p8 = new Purchase("多芬","洗洁精",3.4);
+Purchase p9 = new Purchase("联合利华","洗手液",6.5);
+list.add(p1);
+list.add(p2);
+....
+
+要求:写一个程序,打印出各品牌所花费的总费用.
+[可选,排好序后再打印输出,按花费总费用的降序排序]
+
+

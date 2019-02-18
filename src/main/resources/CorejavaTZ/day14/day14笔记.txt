@@ -1,0 +1,317 @@
+构建自动刷新的PrintWriter
+
+PrintWriter pw = new PrintWriter(new FileOutputStream(filepath),true);
+PrintWriter pw = new PrintWriter(new FileWriter(filepath),true);
+pw.println(...);
+
+//手动刷新
+pw.write(...);
+pw.flush();
+
+------------------------------------------------------------------------------
+
+追加写入文件内容:
+
+1.FileWriter
+  
+  //允许自动追加写入文件内容
+  BufferedWriter bw = new BufferedWriter(new FileWriter(filepath,true));
+
+
+2.RandomAccessFile
+  通过定位来实现追加写入
+-----------------------------------------------------------------------------
+
+字符流
+
+桥接器	InputStreamReader/OutputStreamWriter
+此流是一个过滤流,提供把字节流转换成字符流的功能
+
+构造方法:
+public InputStreamReader(InputStream in);
+public InputStreamReader(InputStream in,String charset);
+
+基本概念
+编码(Encoding):                           把字符转换成字节的过程
+解码(Decoding):把字节转换成字符的过程
+
+编码或者解码都要依赖于字符集
+
+常用的字符集:
+GBK,gb2312
+UTF-8
+ASCII码
+Big 繁体中文
+ISO-8859-1
+...
+
+面试题:
+实现获取用户键盘输入,不能使用Scanner
+
+见InputStreamReaderDemo2
+----------------------------------------------------------
+
+随机访问存取流:RandomAccessFile
+这个流既支持读,写,并且可以操作基本类型.
+更重要的是它可以任意的定位到指定位置进行读,写.
+
+构造方法:
+public RandomAccessFile(String filename,String mode);
+public RandomAccessFile(File file,String mode);
+
+注:
+mode有:
+r	表示只读
+rw	表示读写
+
+重要方法:
+public void seek(long pointer);//定位到文件的指定位置处
+public long getFilePointer();//获取当前文件的偏移量
+public String readLine();
+public int read(...);
+public void write(...);
+...
+----------------------------------------------------------
+
+JAVA多线程和并发处理
+
+基本概念
+进程(process),正在运行的程序.如:JVM进程,QQ进程
+
+线程(thread),是指运行在进程内部,共享进程空间,并拥有自己独立
+             执行机制的资源.
+
+注:一个进程可以创建多个线程.JAVA程序完全支持多线程程序开发
+---------------------------------------------------------
+API
+
+在JAVA中,要开发多线程程序,有两种方法:
+
+1.写一个类继承java.lang.Thread类,并且重写run()方法
+如:
+public class FirstThread extends Thread{
+	...
+	public void run(){
+		//线程要执行的代码...
+	}
+}
+//创建线程对象
+Thread t1 = new FirstThread();
+//启动线程
+t1.start();//千万不能直接调用run()方法.
+
+
+2.写一个类实现java.lang.Runnable接口,并且重写run()方法
+如:
+public class FirstRun implements Runnable{
+	...
+	public void run(){
+		//线程要执行的代码
+	}
+}
+//创建线程对象
+Runnable r = new FirstRun();
+Thread t2 = new Thread(r);
+//启动线程
+t2.start();
+---------------------------------------------------------
+实际上,JVM是一个进程(process),我们只要启动JVM,首先这个
+进程就会自动创建两个线程:
+1)main主线程,负责调用程序的main方法
+2)gc后台守护线程,也就是垃圾回收线程
+
+注:JVM进程要等到所有的非守护线程全部结束后,才会结束进程.
+   一旦线程启动,则JVM/CPU会调度这些线程,他们会在CPU
+   的调度下来完成自己的业务,直到运行结束.
+---------------------------------------------------------
+操作线程的常用方法:
+1.static Thread currentThread()
+  //获取当前正在执行的线程
+
+2.String getName()
+  //获取线程名称
+
+  void setName(String name)
+  //设置线程名称
+  
+  注意:线程也可以通过构造方法设置名字
+
+3.void start()
+  //启动线程的方法
+  
+  注意:该方法在底层其实调用的就是run()方法,run()方法不应该由程序员取调用,
+       而应该使用start()方法,它其实是呼叫JVM去调用run()方法.
+
+4.int getPriority() 
+  //获取线程的优先级
+
+  void setPriority(int newPriority)
+  //设置线程优先级
+
+  注意:线程优先级在不同系统中的定义是不一样的,一共分为1~10级
+            如果超过这个数值,会抛出异常:
+    java.lang.IllegalArgumentException
+  
+  API中提供了三个线程优先级静态常量
+	static int MAX_PRIORITY		最高优先级(10)
+	static int MIN_PRIORITY     最低优先级(1)
+	static int NORM_PRIORITY	默认优先级(5) 
+	
+  注意:线程优先级可以影响线程执行的先后顺序,但是不能起到决定作用.
+  
+
+5.sleep(long l)
+  //线程睡眠方法,间断阻塞方法
+  
+
+6.void setDaemon(boolean bool)
+  //设置当前线程未守护线程
+
+  boolean isDaemon()
+  //判断当前线程是否是守护线程
+
+  注意:线程在启动之前才能设置时候是守护线程
+
+7.void interrupt()				//中断线程
+  static boolean interrupted()  //判断线程是否是中断的
+  boolean isInterrupted()		//测试线程是否已经中断
+
+8.void join()
+  //等待该线程终止
+
+9.static void yield()
+  //暂停线程,并且执行其他线程
+---------------------------------------------------------
+
+线程的状态:
+1.初始态(Beginning)
+  Thread t = new Thread();//处于初始态
+
+2.可运行状态(就绪态,Runnable)
+  t.start();//启动线程
+
+3.运行态(Running)
+  正在运行的线程
+
+4.阻塞态(Blocking)
+  处于运行态的线程如果遇到如下三种情况,会进入阻塞状态
+  a)等待用户输入
+  b)调用其他线程对象的join()方法,如t2.join();
+  c)sleep();
+
+  相对应,如遇到以下三种情况,会打破阻塞,使线程进入可运行态
+  a)用户输入结束
+  b)t2线程运行结束,或者被其他运行的线程所中断
+  c)sleep的时间到了,或者被其他运行的线程所中断
+
+5.终止态(Terminate)
+  表示线程运行结束
+
+
+6.锁池
+  是一种特殊的阻塞态
+  当线程要去执行同步代码时，JVM会检测这个线程是否拥有“临界资源”
+  的锁标记，如果有，则让此线程进入同步代码执行。
+  如果没有锁标记，则JVM把此线程打入“临界资源”对象的 锁池。
+
+7.等待队列
+  是一种特殊的阻塞态
+ 处于此状态下的线程,JVM 是不会主动去调度的，必需要由其它
+ 线程通过调用 notifyAll方法来把处于此状态下的线程唤醒，使
+ 得线程的状态从 等待队列到锁池去。
+---------------------------------------------------------
+
+多线程的并发访问控制
+当多个线程操作同一个资源对象时,就会造成多线程并发.
+如果这些操作是修改操作的话,如不做控制,就会造成数据不一致
+的情况产生,这在应用场景下是不行的,所以,我们要做多线程的
+并发访问控制.
+
+JAVA的多线程提供了"锁"的机制来做并发访问控制.
+
+互斥锁(lock)是一种同步资源,它是对象拥有的.
+但是,只有当做线程同步时,这个"锁"才会出现.
+
+如何做多线程同步?
+使用关键字:synchronized
+
+有两种语法:
+1.内同步,就是直接在方法的修饰符中加入synchronized关键字
+  如:
+  //这个相当于使用当前对象来作为"临界资源"对象
+  public synchronized void run(){
+	//线程代码
+	method_a();
+  }
+  public synchronized void method_a(){
+
+  }
+
+2.外同步,就是在方法体中使用synchronized来同步局部的代码块,
+  这样做的好处:
+  a)可以指定临界资源对象
+  b)可以大大缩小同步的代码范围
+  c)可以申请多个资源对象的"锁"
+  如:
+  public void run(){
+	//线程代码
+	...
+	synchronized(临界资源1){
+		//同步代码块
+		...
+	}
+	synchronized(临界资源2){
+		//同步代码块
+		...
+	}
+	synchronized(临界资源3){
+		//同步代码块
+		...
+	}
+  }
+加入了synchronized修饰的方法都是同步方法,它是多线程并发
+安全.但是效率低,因为只能串行执行.
+
+Arraylist与Vector
+StringBuilder与StringBuffer
+HashMap与Hashtable
+
+以上的几个类都是前者是线程不安全的,而后者是线程安全的.
+---------------------------------------------------------
+
+死锁(Death Lock)
+就是指多个线程之间互相想拿对方已经拥有的锁标记.
+
+如：
+public void run(){
+    ...
+    synchronized(lockA){
+		....
+		...
+		synchronized(lockB){
+			...
+			...
+		}
+    }
+}
+
+另一个线程：
+public void run(){
+   ...
+    synchronized(lockB){
+		....
+		...
+		synchronized(lockA){
+			...
+			...
+		}
+}
+
+注：要尽量避免产生死锁
+
+避免交叉申请锁标记
+静态成员容易造成死锁
+
+一旦陷入死锁,则无法恢复!
+
+
