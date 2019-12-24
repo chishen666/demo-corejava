@@ -25,7 +25,7 @@ public class ArrayCircularQueue<T> {
      *
      * @return
      */
-    private boolean isNull() {
+    public boolean isNull() {
         return head == tail;
     }
 
@@ -34,7 +34,7 @@ public class ArrayCircularQueue<T> {
      *
      * @return
      */
-    private boolean isFull() {
+    public boolean isFull() {
         return (tail + 1) % maxSize == head;
     }
 

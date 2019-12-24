@@ -23,14 +23,14 @@ public class ArrayQueue<T> {
     }
 
     /**
-     * 队列为空
+     * 队列是否为空
      */
     public boolean isNull() {
         return head == tail;
     }
 
     /**
-     * 队列已满
+     * 队列是否已满
      */
     public boolean isFull() {
         return tail == maxSize;
@@ -47,7 +47,7 @@ public class ArrayQueue<T> {
             return false;
         } else {
             datas[tail] = t;
-            tail += 1;
+            tail++;
             return true;
         }
     }
@@ -57,13 +57,14 @@ public class ArrayQueue<T> {
      *
      * @return
      */
-    public boolean pop() {
+    public T pop() {
         if (isNull()) {
-            return false;
+            return null;
         } else {
+            T t = datas[head];
             datas[head] = null;
-            head += 1;
-            return true;
+            head++;
+            return t;
         }
     }
 
