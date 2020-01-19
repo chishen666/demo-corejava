@@ -33,7 +33,6 @@ public class SortingDemo {
         }
     }
 
-
     /**
      * 排序算法3：选择排序
      *
@@ -78,17 +77,23 @@ public class SortingDemo {
         if (low >= high) {
             return;
         }
-        int index = low;
-        int mid = low;
-        for (int i = low + 1; i <= high; i++) {
-            if (nums[i] < nums[index]) {
-                mid++;
-                exchange(nums, nums[i], nums[low]);
-                index = i;
+        int mid = nums[low];
+        int first = low;
+        int last = high;
+        while (first < last) {
+            while (first < last && nums[last] >= mid) {
+                last--;
             }
+            nums[first] = nums[last];
+            while (first < last && nums[first] <= mid) {
+                first++;
+            }
+            nums[last] = nums[first];
         }
-        quickSort(nums, low, mid - 1);
-        quickSort(nums, mid + 1, high);
+        nums[first] = mid;
+        quickSort(nums, low, first - 1);
+        quickSort(nums, first + 1, high);
+
     }
 
 
