@@ -14,6 +14,7 @@ public class ListDemo {
 
         // 1.数组转集合
         String[] vegetablesArr = {"potato", "tomato", "cucumber"};
+
         List<String> vegetablesList = Arrays.asList(vegetablesArr);
         System.out.println("vegetablesList size = " + vegetablesList.size());
 

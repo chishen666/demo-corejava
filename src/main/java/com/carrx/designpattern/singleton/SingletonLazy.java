@@ -1,5 +1,11 @@
 package com.carrx.designpattern.singleton;
 
+/**
+ * 单例模式（懒汉式）
+ *
+ * @Author: Carl.Xiang
+ * @Date: 2020/2/2 11:15
+ **/
 public class SingletonLazy {
 
     private static SingletonLazy instance = null;
